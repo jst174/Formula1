@@ -37,18 +37,7 @@ public class Racer {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((abbreviations == null) ? 0 : abbreviations.hashCode());
-        result = prime * result + ((lapTime == null) ? 0 : lapTime.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((team == null) ? 0 : team.hashCode());
         return result;
-    }
-    
-    
-
-    @Override
-    public String toString() {
-        return "Racer [abbreviations=" + abbreviations + ", name=" + name + ", team=" + team + ", lapTime=" + lapTime
-                + "]";
     }
 
     @Override

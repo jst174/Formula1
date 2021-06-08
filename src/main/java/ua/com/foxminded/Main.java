@@ -2,30 +2,21 @@ package ua.com.foxminded;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.*;
 
 public class Main {
 
     public static void main(String[] args) {
+        ClassLoader classLoader = Main.class.getClassLoader();
         try {
-            File abbreviations = new File("src/main/resources/abbreviations.txt");
-            File start = new File("src/main/resources/start.log");
-            File end = new File("src/main/resources/end.log");
+            File abbreviations = new File(classLoader.getResource("abbreviations.txt").getFile());
+            File start = new File(classLoader.getResource("start.log").getFile());
+            File end = new File(classLoader.getResource("end.log").getFile());
+            if ((abbreviations == null) || (start == null) || (end == null)) {
+                throw new IllegalArgumentException();
+            }
             RacersRepository racers = new RacersRepository(abbreviations, start, end);
-            Formater formater = new Formater();
-
-            System.out.println(formater.formatListRacers(racers.getRacers()));
-            // System.out.println(racers.getRacers().stream().sorted(Comparator.comparing(Racer::getLapTime)).collect(Collectors.toList()));
-
+            RacersListFormater formater = new RacersListFormater();
+            formater.format(racers.getRacers()).forEach(racer -> System.out.println(racer));
         } catch (IOException e) {
             e.printStackTrace();
         }
