@@ -30,8 +30,13 @@ class RacersListFormaterTest {
     }
 
     @Test
-    void format_topRacersMoreThanRacerListSize_shouldThrowException() {
-        assertThrows(IllegalArgumentException.class, () -> formater.format(racers, 4));
+    void format_topRacersMoreThanRacerListSize_shouldReturnResulWithoutSeparatorLine() {
+        StringBuilder expected = new StringBuilder();
+        expected.append("01.Sebastian Vettel|FERRARI                  |01:04.415" + lineSeparator());
+        expected.append("02.Daniel Ricciardo|RED BULL RACING TAG HEUER|01:12.013" + lineSeparator());
+        expected.append("03.Lewis Hamilton  |MERCEDES                 |01:12.460" + lineSeparator());
+
+        assertEquals(expected.toString(), formater.format(racers, 4));
     }
 
     @Test

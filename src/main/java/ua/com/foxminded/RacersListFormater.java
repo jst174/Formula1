@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class RacersListFormater {
 
@@ -15,10 +14,7 @@ public class RacersListFormater {
 
     public String format(List<Racer> racers, int topRacers) {
         if (racers == null) {
-            throw new IllegalArgumentException();
-        }
-        if (topRacers > racers.size()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("List of racers is null");
         }
         int maxNameLength = getMaxLengthOfField(racers, Racer::getName);
         int maxTeamLength = getMaxLengthOfField(racers, Racer::getTeam);
@@ -26,13 +22,16 @@ public class RacersListFormater {
         String formatPattern = "%02d" + "." + "%-" + maxNameLength + "s" + SLAH + "%-" + maxTeamLength + "s" + SLAH
                 + "%s";
         AtomicInteger numberOfPosition = new AtomicInteger(0);
-        List<String> racersList = racers
-                .stream().sorted(Comparator.comparing(Racer::getLapTime)).map(racer -> String.format(formatPattern,
+         racers.stream().sorted(Comparator.comparing(Racer::getLapTime))
+                .map(racer -> String.format(formatPattern,
                         numberOfPosition.incrementAndGet(), racer.getName(), racer.getTeam(), formatLapTime(racer)))
-                .collect(Collectors.toList());
-        racersList.add(topRacers, String.join("", Collections.nCopies(racersList.get(1).length(), "-")));
-        racersList.forEach(racer -> result.append(racer + lineSeparator()));
-        return result.toString();
+                .forEach(racer -> {
+                    result.append(racer + lineSeparator()); 
+                    if(numberOfPosition.get() == topRacers) {
+                        result.append(String.join("", Collections.nCopies(racer.length(), "-")) + lineSeparator());
+                    }         
+         });
+          return result.toString();
     }
 
     private String formatLapTime(Racer racer) {
@@ -41,6 +40,9 @@ public class RacersListFormater {
     }
 
     private int getMaxLengthOfField(List<Racer> racers, Function<Racer, String> function) {
-        return racers.stream().map(function::apply).mapToInt(String::length).max().orElse(0);
+        return racers.stream()
+                .map(function::apply)
+                .mapToInt(String::length)
+                .max().orElse(0);
     }
 }
