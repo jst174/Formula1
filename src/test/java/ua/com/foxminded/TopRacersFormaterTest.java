@@ -10,18 +10,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class RacersListFormaterTest {
+class TopRacersFormaterTest {
 
-    private RacersListFormater formater;
-    private List<Racer> racers;
+    private TopRacersFormater formater;
 
     @BeforeEach
     void setUp() {
-        formater = new RacersListFormater();
-        racers = new ArrayList<>();
-        racers.add(new Racer("DRR", "Daniel Ricciardo", "RED BULL RACING TAG HEUER", Duration.ofMillis(72013)));
-        racers.add(new Racer("SVF", "Sebastian Vettel", "FERRARI", Duration.ofMillis(64415)));
-        racers.add(new Racer("LHM", "Lewis Hamilton", "MERCEDES", Duration.ofMillis(72460)));
+        formater = new TopRacersFormater();
     }
 
     @Test
@@ -31,6 +26,10 @@ class RacersListFormaterTest {
 
     @Test
     void format_topRacersMoreThanRacerListSize_shouldReturnResulWithoutSeparatorLine() {
+        List<Racer> racers = new ArrayList<>();
+        racers.add(new Racer("DRR", "Daniel Ricciardo", "RED BULL RACING TAG HEUER", Duration.ofMillis(72013)));
+        racers.add(new Racer("SVF", "Sebastian Vettel", "FERRARI", Duration.ofMillis(64415)));
+        racers.add(new Racer("LHM", "Lewis Hamilton", "MERCEDES", Duration.ofMillis(72460)));
         StringBuilder expected = new StringBuilder();
         expected.append("01.Sebastian Vettel|FERRARI                  |01:04.415" + lineSeparator());
         expected.append("02.Daniel Ricciardo|RED BULL RACING TAG HEUER|01:12.013" + lineSeparator());
@@ -41,6 +40,10 @@ class RacersListFormaterTest {
 
     @Test
     void format_ShouldReturnResult() {
+        List<Racer> racers = new ArrayList<>();
+        racers.add(new Racer("DRR", "Daniel Ricciardo", "RED BULL RACING TAG HEUER", Duration.ofMillis(72013)));
+        racers.add(new Racer("SVF", "Sebastian Vettel", "FERRARI", Duration.ofMillis(64415)));
+        racers.add(new Racer("LHM", "Lewis Hamilton", "MERCEDES", Duration.ofMillis(72460)));
         StringBuilder expected = new StringBuilder();
         expected.append("01.Sebastian Vettel|FERRARI                  |01:04.415" + lineSeparator());
         expected.append("-------------------------------------------------------" + lineSeparator());

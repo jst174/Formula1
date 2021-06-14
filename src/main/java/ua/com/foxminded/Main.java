@@ -11,7 +11,7 @@ public class Main {
             File startLogsFile = new File(classLoader.getResource("start.log").getFile());
             File endLogsFile = new File(classLoader.getResource("end.log").getFile());
             RacersRepository racers = new RacersRepository(abbreviations, startLogsFile, endLogsFile);
-            RacersListFormater formater = new RacersListFormater();
+            TopRacersFormater formater = new TopRacersFormater();
             System.out.println(formater.format(racers.getRacers(), 15));
         } catch (Exception e) {
             throw new RuntimeException(e);
